@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8" />
+	<title>添加属性创建对象和直接使用字面量语法创建对象</title>
+</head>
+<body>
+	<script>
+		// 使用添加属性的方法创建对象
+		var person1 = new Object();
+		person1.name = 'Jeremy Fan';
+		person1.age = '25';
+		person1.job = 'Software Engineer';
+		person1.sayName = function() {
+			console.log(this.name);
+		}
+
+		// 直接使用字面量语法创建对象
+		var person2={
+			name:'John Brown',
+			age:'23',
+			job:'Software Engineer',
+			sayName:function(){
+				console.log(this.name);
+			}
+		}
+	</script>
+</body>

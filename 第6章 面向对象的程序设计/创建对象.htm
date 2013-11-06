@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<head>
+	<meta charset='utf-8' />
+	<title>创建对象</title>
+</head>
+<body>
+	<script>
+	// 工厂模式创建对象
+	function createPerson(name,age,job){
+		var o=new Object();
+		o.name=name;
+		o.age=age;
+		o.job=job;
+		o.sayName=function(){
+			return this.name;
+		}
+		return o;
+	}
+	var person1=createPerson('Jeremy','25','Software Engineer');
+	var person2=createPerson('Adam','50','Singer');
+	// 工厂模式解决了创建多个相似对象的问题，但没有解决对象识别的问题。即只能确定person1和person2是Object对象，无法更具体。
+
+	console.log('-----构造函数模式创建对象-----\n');
+	// 构造函数模式创建对象
+	function Person(name,age,job){
+		this.name=name;
+		this.age=age;
+		this.job=job;
+		this.sayName=function(){
+			return this.name;
+		}
+	}
+	var person3=new Person('Carter','37','Basketball Player');
+	var person4=new Person('Jim Morrison','70','Rock Star');
+	console.log(person4.constructor); // Person对象
+	console.log(person4 instanceof Person); // true
+	// 构造函数模式可以将实例标识为特定的类型，解决了工厂模式的对象识别问题。
+
+	// 另两种用法：
+	// 属性直接添加到window对象中
+	Person('Oasis','30','Rock Band');
+	console.log(window.sayName()); // Oasic
+	// 在另一个对象的作用域中调用
+	var o=new Object();
+	Person.call(o,'Blur','30','Rock Bank');
+	console.log(o.sayName()); // Blur
+
+	// 构造函数模式的缺点：每个方法都要在每个实例上创建一遍
+	console.log(person3.sayName==person4.sayName); // false
+	// 解决方案：定义一个全局的函数sayName()，让每个实例的sayName属性指向sayName()函数。
+	// 解决方案的缺点：把方法定义在外部缺乏封装性。
+
+	</script>
+</body>

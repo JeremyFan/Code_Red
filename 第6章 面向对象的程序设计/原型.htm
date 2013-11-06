@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<head>
+<meta charset='utf-8' />
+<title>原型</title>
+</head>
+<body>
+	<script>
+	function Person(){
+		Person.prototype.name='Jeremy',
+		Person.prototype.age='25',
+		Person.prototype.job='Software Engineer',
+		Person.prototype.sayName=function(){
+			return this.name;
+		}
+	}
+	var person1=new Person();
+	console.log(person1.sayName()); // Jermey
+	// __proto__指向构造函数的原型对象（仅Chrome，FF，Safari支持）
+	console.log(person1.__proto__); // Person对象
+	// 使用isPrototypeOf()方法检测对象之间的关系
+	console.log(Person.prototype.isPrototypeOf(person1)); // true
+	// getPrototypeOf()方法返回指向构造函数的原型对象（ECMAScript5新增的方法）
+	console.log(Object.getPrototypeOf(person1)); // Person对象
+
+	var person2=new Person();
+	person2.name='John Lennon';
+	// 通过为实例对象设置同名属性，可以屏蔽掉原型对象中的属性，但并不会修改原型对象的属性。
+	console.log(person2.name); // John Lennon
+	console.log(person2.__proto__.name); // Jeremy
+	// 删除实例中的name属性后，可以重新访问到原型对象的属性
+	delete person2.name;
+	console.log(person2.name); // Jeremy
+
+	// hasOwnProperty()方法可以检测一个属性是否存在于实例中
+	// 而in操作符可以检测实例是不是存在这个属性，不论这个属性是存在于实例中还是原型中
+	console.log('name' in person2, person2.hasOwnProperty('name')); // true false
+	person2.name = 'John Lennon'
+	console.log('name' in person2, person2.hasOwnProperty('name')); // true true
+
+	// 下面的方法可以判断属性是存在于原型中还是存在于实例中
+	function hasPrototypeProperty(object,propertyName){
+		return !object.hasOwnProperty(propertyName)&&(propertyName in object);
+	}
+	console.log(hasPrototypeProperty(person2,'name')); // false
+	console.log(hasPrototypeProperty(person2,'age')); // true
+	</script>
+</body>
