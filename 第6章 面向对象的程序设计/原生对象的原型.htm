@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<head>
+<meta charset='utf-8' />
+<title>原生对象的原型</title>
+</head>
+<body>
+	<script>
+	// 不同的原生引用类型在原型上定义了不同属性，比如：
+	console.log(String.prototype.substring); // substring()方法
+	console.log(Array.prototype.sort); // sort()方法
+
+	// 也可以在原生引用类型的原型上增加属性，比如
+	Object.prototype.sayHi=function(){
+		console.log('Hi, I am an object.')
+	}
+	String.prototype.isStartWith=function(text){
+		// 匹配则返回0，不匹配则返回-1（chrome下）
+		return this.indexOf(text)==0;
+	}
+	var foo='what a wonderful world.';
+	foo.sayHi(); // Hi, I am an object.
+	console.log(foo.isStartWith('what')); // true
+	console.log(foo.isStartWith('how')); //false
+
+	// 不推荐在产品化的程序中修改原生对象的原型。
+	// “因为如果某个实现中缺少某个方法，就在原生对象的原型中添加这个方法，那么在另一个支持改方法的实现中就可能会导致命名冲突。而且，这样做也可能会意外的重写原生方法。”
+	</script>
+</body>

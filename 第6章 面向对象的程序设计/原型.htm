@@ -43,5 +43,46 @@
 	}
 	console.log(hasPrototypeProperty(person2,'name')); // false
 	console.log(hasPrototypeProperty(person2,'age')); // true
+
+
+
+	// 更简单的原型语法
+	function Student(){};
+	Student.prototype={
+		name:'Jeremy',
+		grade:1,
+		class:5,
+		sayHello:function(){
+			return 'Morning, teacher!';
+		}
+	}
+
+	// 这种语法完全重写了prototype对象，constructor属性将指向Object对象
+	var s1=new Student();
+	console.log(s1.constructor); // Object对象
+	console.log(person1.constructor); // Person对象
+
+	// 解决方案：添加一个constructor属性指向Person
+		Student.prototype={
+		constructor:Person,
+		name:'Jeremy',
+		grade:1,
+		class:5,
+		sayHello:function(){
+			return 'Morning, teacher!';
+		}
+	}
+	var s2=new Student();
+	console.log(s2.constructor); // Person对象
+	// 但这个解决方案把constructor的enumerable属性置为了true，所以
+	// 改进的解决方案：使用Object.defineProperty()方法定义constructor属性
+	Object.defineProperty(Student.prototype,'constructor',{
+		enumerable:false,
+		value:Person
+	});
+	var s3=new Student();
+	console.log(s3.constructor); // Person对象
+
+
 	</script>
 </body>

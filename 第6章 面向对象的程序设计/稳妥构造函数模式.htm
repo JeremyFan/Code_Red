@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<head>
+	<meta charset='utf-8' />
+	<title>稳妥构造函数模式</title>
+</head>
+<body>
+	<p style="margin:30px;width:600px;line-height:1.7;text-indent:2em;font-size:15px;font-family:microsoft yahei;word-break:break-all;">
+		道格拉斯.克罗克福德（Douglas Crockford）发明了JavaScript中的<b>稳妥对象</b>（durable objects）这个概念。所谓稳妥对象，指的是没有公共属性，而且其方法也不引用this的对象。稳妥对象最适合在一些安全的环境中（这些环境中禁止使用this和new），或者在防止数据被其他应用程序（如Mashup程序）改动时使用。
+	</p>
+	<p style="margin:30px;width:600px;line-height:1.7;text-indent:2em;font-size:15px;font-family:microsoft yahei;">
+		稳妥构造函数遵循与寄生函数类似的模式，但有两点不同：一是新创建对象的实例方法不引用this; 而是不适用new操作符调用构造函数。
+	</p>
+	<script>
+	function Person(name,age,job){
+		// 创建对象
+		var o=new Object();
+
+		// 可以在这里定义私有变量和函数
+
+		// 添加方法
+		o.sayName=function(){
+			console.log(name);
+		}
+
+		// 返回函数
+		return o;
+	}
+
+	var p1=Person('Jeremy Fan','25','Engineer'); // Jeremy Fan
+	p1.sayName();
+	</script>
+</body>

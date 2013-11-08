@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<head>
+<meta charset='utf-8' />
+<title>原型对象的问题</title>
+</head>
+<body>
+	<script>
+	// 问题1：原型模式省略了为构造函数传递初始化参数这一环节，结果所有实例在默认情况下都将取得相同的属性值。
+	function Person(){};
+	Person.prototype={
+		constructor:Person,
+		name:'Jeremy',
+		friends:['John','Jack']
+	}
+	var p1=new Person();
+	var p2=new Person();
+	p1.friends.push('Jack');
+	console.log(p2.friends); // ["John", "Jack", "Jack"] 
+
+	// 问题2：原型中的属性是被实例共享的。所以对于引用类型的属性，会出现以上问题。（p1多交了一个朋友Jack，也在p2中反映出来）
+	</script>
+</body>

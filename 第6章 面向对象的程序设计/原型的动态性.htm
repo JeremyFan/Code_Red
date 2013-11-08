@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<head>
+<meta charset='utf-8' />
+<title>原型的动态性</title>
+</head>
+<body>
+	<script>
+	function Person(){}
+	var p1=new Person();
+	Person.prototype.sayHello=function(){
+		console.log('Hello everyone.');
+	}
+	p1.sayHello(); // Hello everyone.
+
+	var p2=new Person();
+	Person.prototype={
+		constructor:Person,
+		sayGoodbye:function(){
+			console.log('Good Bye.'); 
+		}
+	}
+	// 会报错
+	p2.sayGoodbye();
+	/*
+	var p3=new Person();
+	p3.sayGoodbye(); // Good Bye.
+	*/
+	// 因为重写原型对象切断了现有原型与任何值钱已经存在的对象实例之间的联系，它们引用的仍然是最初的原型。
+	
+	</script>
+</body>

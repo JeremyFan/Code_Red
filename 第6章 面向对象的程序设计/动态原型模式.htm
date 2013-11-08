@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<head>
+<meta charset='utf-8' />
+<title>动态原型模式</title>
+</head>
+<body>
+	<p style="margin:30px;width:600px;line-height:1.7;text-indent:2em;font-size:15px;font-family:microsoft yahei;">
+		构造函数和原型混合模式有独立的构造函数和原型。而动态原型模式把所有的信息都封装在了构造函数中。且原型只在第一次调用构造函数时因为原型属性不存在而添加属性。所以书中把这种方法形容为“确实可以说非常完美”。
+	</p>
+	<script>
+	function Person(name, age, job) {
+		this.name = name;
+		this.age = age;
+		this.job = job;
+		if (typeof this.sayHello != 'function') {
+			Person.prototype.sayHello = function() {
+				return this.name;
+			}
+		}
+	}
+
+	var p1=new Person('Jeremy',25,'Engineer');
+	console.log(p1.sayHello()); // Jermey
+	</script>
+</body>

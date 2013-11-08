@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<head>
+<meta charset='utf-8' />
+<title>IE8 for-in bug及便利属性</title>
+</head>
+<body>
+	<script>
+	var o={
+		toString:function(){
+			return 'My Object.';
+		}
+	}
+	console.log('-----IE8 bug-----')
+	for(var prop in o){
+		if(prop=='toString'){
+			console.log('Found toString.');
+		}
+	}
+
+	// 使用for-in循环时，返回的是所有能够通过对象访问的、可枚举的（enumberated）属性，其中既包括存在于实例中的属性，也包括存在于原型中的属性。屏蔽了原型中不可枚举属性的实例属性也会在for-in中返回——但在IE8及IE更早版本中例外。
+
+	// 对于IE早期版本，屏蔽不可枚举属性的实例属性不会出现在for-in循环中。
+
+	// 不过这个demo在IE10的IE8模式下也输出了'Found toString.'。没有找到IE8测试。
+
+
+	function Person(){
+		Person.prototype.name='Jeremy';
+		Person.prototype.age=25;
+		Person.prototype.job='Software Engineer';
+	}
+
+	var person1=new Person();
+	person1.name='John Brown';
+	person1.sayHello=function(){
+		return this.name;
+	}
+	Object.defineProperty(person1,'weight',{
+		enumerable:false,
+		value:'60kg'
+	})
+
+
+	console.log('\n-----for-in循环-----')
+	// for-in 循环
+	for(var prop in person1){
+		console.log(prop);
+	} // name sayHello age job
+
+	console.log('\n-----Object.keys()方法-----')
+	// Object.keys()方法
+	var keys=Object.keys(person1);
+	console.log(keys); // ["name", "sayHello"] 
+
+	console.log('\n-----Object.getOwnPropertyNames()方法-----')
+	// Object.getOwnPropertyNames()方法
+	var props=Object.getOwnPropertyNames(person1);
+	console.log(props); // ["name", "sayHello", "weight"] 
+
+	// Object.keys()和Object.getOwnPropertyNames()的区别在于Object.keys()只返回实例中可枚举的属性，而Object.getOwnPropertyNames()返回实例中所有的属性，不论是否可枚举。
+	// 这两个方法都是ECMAScript5的方法，IE9+才支持。
+
+	</script>
+</body>
