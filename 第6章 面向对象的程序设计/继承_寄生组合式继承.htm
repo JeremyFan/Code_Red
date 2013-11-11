@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<head>
+<meta charset='utf-8' />
+<title>继承_原型式继承</title>
+</head>
+<body>
+<p>
+	组合继承是JavaScript最常用的继承模式；不过，它也有不足：无论什么情况下都会调用两次超类型构造函数：一次是在创建子类型原型的时候，另一次是在子类型构造函数内部。子类型最终会包含超类型对象的全部实例属性，但我们不得不在调用子类型构造函数时重写这些属性。
+</p>
+<p>
+	寄生组合式继承解决了上面组合继承的问题。
+	所谓寄生组合式继承，即通过借用构造函数来继承属性，通过原型链的混成形式来继承方法。其背后的思路是：不必为了指定子类型的原型而调用超类型的构造函数，我们所需要的无非就是超类型原型的一个副本而已。本质上，就是使用寄生式继承来继承超类型的原型，然后再将结果指定给子类型的原型。
+</p>
+<script>
+	// 组合继承的问题
+
+	function SuperType(name){
+		this.name=name;
+		this.colors=['yellow','green','red'];
+	}
+	SuperType.prototype.sayName=function(){
+		console.log(this.name);
+	}
+
+	function SubType(name,age){
+		SuperType.call(this,name); // 第2次调用SuperType()
+		this.age=age;
+	}
+
+	SubType.prototype=new SuperType(); // 第1次调用SuperType()
+	SubType.prototype.constructor=SubType;
+	SubType.prototype.sayAge=function(){
+		console.log(this.age);
+	}
+
+	var ins1=new SubType('Jermey',25);
+	console.log(ins1.hasOwnProperty('name')); // true
+	console.log(SubType.prototype.hasOwnProperty('name')); // true
+	// ins1和SubType的原型中都有name属性
+
+
+	// 寄生组合式继承
+
+	// 基本模式
+	function inheritPrototype(subType,superType){
+		var prototype=superType.prototype; // 创建对象
+		prototype.constructor=subType; // 增强对象
+		subType.prototype=prototype; // 指定对象
+	}
+
+	function SuperType2(name){
+		this.name=name;
+		this.colors=['yellow','green','red'];
+	}
+	SuperType2.prototype.sayName=function(){
+		console.log(this.name);
+	}
+
+	function SubType2(name,age){
+		SuperType2.call(this,name);
+		this.age=age;
+	}
+	inheritPrototype(SubType2,SuperType2);
+	SubType2.prototype.sayAge=function(){
+		console.log(this.age);
+	}
+
+	var ins21=new SubType2('Jack',40);
+	console.log(ins21.hasOwnProperty('name')); // true
+	console.log(SubType2.prototype.hasOwnProperty('name')); //false
+
+	// 仅调用一次SuperType()，name属性仅存在于ins21中。
+</script>
+</body>

@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<head>
+	<meta charset="utf-8">
+	<title>继承_借用构造函数</title>
+</head>
+<body>
+	<p>
+	借用构造函数（constructor stealing），也称伪造对象或经典继承。这种技术的基本思想相当简单，即在子类型构造函数的内部调用超类型构造函数。
+	</p>
+	<p>
+	借用构造函数的问题：问题1——方法都在构造函数中定义，因此函数服用就无从谈起了；问题2——在超类型的原型中定义的方法，对子类型而言也是不可见的。
+	</p>
+	<script>
+	function SuperType(name){
+		this.friends=['Adam','Mark','Joe'];
+		this.name=name;
+	}
+	function SubType(){
+		SuperType.call(this,'Jeremy');
+		// 实例属性
+		this.age=25;
+	}
+	var s1=new SubType();
+	var s2=new SubType();
+	console.log(s1.friends); // ["Adam", "Mark", "Joe"] 
+	s1.friends.push('Bill');
+	console.log(s1.friends); // ["Adam", "Mark", "Joe", "Bill"] 
+	console.log(s2.friends); // ["Adam", "Mark", "Joe"] 
+	console.log(s1.name,s1.age); // Jeremy 25
+
+	// 借用构造函数的问题
+	// 问题1——方法都在构造函数中定义，因此函数服用就无从谈起了。
+	// 问题2——在超类型的原型中定义的方法，对子类型而言也是不可见的。
+
+
+	// 感觉这个地方可以改进一下。这样可以创建不同姓名年龄的SubType2实例。
+	function SubType2(name,age){
+		SuperType.call(this,name);
+		this.age=age;
+	}
+	var s21=new SubType2('Jack',40);
+	var s22=new SubType2('John',20);
+	console.log(s21.name,s21.age); // Jack 25
+	console.log(s22.name,s22.age); // John 20
+	</script>
+</body>

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<head>
+	<meta charset='utf-8' />
+	<title>继承_原型式继承</title>
+</head>
+<body>
+	<p>
+		道格拉斯.克罗克福德2006年写了一篇文章，题为Prototypal Inheritance in JavaScript，介绍了原型式继承：借助原型可以基于已有的对象创建新对象，同时还不必因此创建自定义类型。
+	</p>
+	<p>
+		在没有必要兴师动众地创建构造函数，而只想让一个对象与另一个对象保持类似的情况下，原型式继承时完全可以胜任的。不过别忘了，包含引用类型值的属性始终都会共享相应的值，就像使用原型模式一样。
+	</p>
+	<script>
+	// 原型式继承
+	function object(o){
+		function F(){};
+		F.prototype=o;
+		return new F();
+	}
+
+	var person={
+		name:'Jeremy',
+		friends:['Mark','Bill','Jack']
+	}
+
+	var anotherPerson=object(person);
+	anotherPerson.name='Adam';
+	anotherPerson.friends.push('Bob');
+
+	var yetAnotherPerson=object(person);
+	yetAnotherPerson.name='Carter';
+	yetAnotherPerson.friends.push('Kidd');
+
+	console.log(person.friends); // ["Mark", "Bill", "Jack", "Bob", "Kidd"]
+
+
+	// ECMAScript5通过新增Object.create()方法规范化了原型式继承。这个方法接收两个参数：一个用做新对象原型的对象和（可选的）一个为新对象定义额外属性的对象。
+	var person1=Object.create(person);
+	person1.name='Dirk';
+	person1.friends.push('Terry');
+	console.log(person1.name,person1.friends); // Dirk ["Mark", "Bill", "Jack", "Bob", "Kidd", "Terry"] 
+
+	// Object.create()第二个参数用法
+	 var person2=Object.create(person,{
+	 	name:{
+	 		value:'Eric'
+	 	}
+	 });
+	 console.log(person2.name); // Eric
+
+	</script>
+</body>
