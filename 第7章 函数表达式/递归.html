@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8" />
+<title>递归</title>
+</head>
+<body>
+<script>
+	// 1.
+	function factorial(n) {
+		if (n <= 1)
+			return 1;
+		else
+			return n * factorial(n - 1);
+	}
+	console.log(factorial(5)); // 120
+
+	// 1的问题：调用factorial被写死了
+	var anotherFactorial=factorial;
+	factorial=null;
+	// console.log(anotherFactorial(5));
+	// Uncaught TypeError: Property 'factorial' of object [object Object] is not a function 
+
+	// 2.使用arguments.callee
+	function factorial2(n){
+		if(n<=1)
+			return 1;
+		else
+			return n*arguments.callee(n-1);
+	}
+	console.log(factorial2(50)); // 3.0414093201713376e+64
+	// 使用arguments.callee可以解决factorial被写死的问题，但argumengts.callee在严格模式下不能访问。
+
+	// 3.使用命名函数表达式
+	var factorial3=(function f(n){
+		if(n<1)
+			return 1;
+		else
+			return n*f(n-1);
+	});
+	console.log(factorial3(10)); // 3628800
+
+</script>
+</body>

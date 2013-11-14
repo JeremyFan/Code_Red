@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8" />
+<title>模仿块级作用域</title>
+</head>
+<body>
+	<script>
+	function outputNumber() {
+		for (var i = 0; i < 10; i++) {
+			console.log(i); // 输出0到9
+		}
+		console.log(i); // 输出10
+	}
+	outputNumber();
+	// JavaScript没有块级作用域的概念。所以花括号外部仍可以访问变量i。
+
+	// 解决方案：创建一个立即执行的匿名函数
+	function outputNumber2() {
+		(function() {
+			for (var i = 0; i < 10; i++) {
+				console.log(i);
+			}
+		})();
+		// console.log(i); // Uncaught ReferenceError: i is not defined 
+	}
+	outputNumber2();
+
+
+	// 这种模仿块级作用域的技术经常被用在全局作用域中，以尽量减少全局作用域中的变量和函数
+	// 例如
+	(function(){
+		var now=new Date();
+		if(now.getMonth()==0&&now.getDate()==1)
+			alert('Happy New Year!');
+	})();
+
+	</script>
+</body>

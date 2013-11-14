@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8" />
+<title>闭包中的this</title>
+</head>
+<body>
+	<script>
+	var name='the window';
+	var object={
+		name:'the object',
+		getNameFunc:function(){
+			return function(){
+				return this.name;
+			}
+		}
+	}
+	console.log(object.getNameFunc()()); // the window
+
+	var object2={
+		name:'the object2',
+		getNameFunc:function(){
+			var that=this;
+			return function(){
+				return that.name;
+			}
+		}
+	}
+	console.log(object2.getNameFunc()()); // the object2
+
+	var object3={
+		name:'the object3',
+		getNameFunc:function(){
+			return this.name;
+		}
+	}
+	console.log(object3.getNameFunc()); // the object3
+	console.log((object3.getNameFunc)()); // the object3
+	console.log((object3.getNameFunc=object3.getNameFunc)()); // the window
+	</script>
+</body>

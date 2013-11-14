@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8" />
+<title>模块模式_为单例创建私有变量和特权方法</title>
+<style>
+	#d{
+		width:200px;
+		height:100px;
+		border:1px solid black;
+		display: table;
+  		overflow: auto;
+  		margin: auto;
+  		position: absolute;
+  		top: 0; left: 0; bottom: 0; right: 0;
+	}
+</style>
+</head>
+<body>
+	<div id='d'></div>
+	<script>
+	// 所谓单例（singleton），指的就是只有一个实例的对象
+	// 模块模式通过为单例添加私有变量和特权方法能够使其得到增强，语法形式如下：
+	var singleton=function(){
+		// 私有变量和私有函数
+		var privateVariable=10;
+		function privateFunction(){
+			return false;
+		}
+		return {
+			publicProperty:true,
+			publicMethod:function(){
+				privateVariable++;
+				return privateFunction();
+			}
+		}
+	}();
+
+	// 模块模式在需要对单例进行某些初始化，同时又需要维护其私有变量时事非常有用的。例如：
+	var application=function(){
+		// 私有变量和函数
+		var components=new Array();
+		// 初始化
+		components.push(new BaseComponent());
+		// 公共
+		return {
+			getComponentCount:function(){
+				return components.length;
+			},
+			registerComponent:function(component){
+				if(typeof(component)=='object'){
+					components.push(component);
+				}
+			}
+		}
+	}();
+	function BaseComponent(){
+		// sth.
+	}
+
+	// 如果必须创建一个对象并以某些数据对其进行初始化，同时还要公开一些能够访问这些私有数据的方法，那么就可以使用模块模式。
+
+
+	// 增强的模块模式
+	// 在返回对象之前加入对其增强的代码
+	var singleton=function(){
+		// 私有变量和私有函数
+		var privateVariable=10;
+		function privateFunction(){
+			return false;
+		}
+
+		// 创建对象
+		var object=new CustomType();
+
+		// 添加特权/公有属性和方法
+		object.publicProperty=true;
+		object.publicMethod=function(){
+			privateVariable++;
+			return privateFunction();
+		}
+		return object;
+	}();
+	function CustomType(){};
+
+
+	// 改写上面的application实例
+	var application=function(){
+		// 私有变量和函数
+		var components=new Array();
+		// 初始化
+		components.push(new BaseComponent());
+		// 创建application的一个局部副本
+		var app=new BaseComponent();
+		// 公共接口
+		app.getComponentCount=function(){
+			return components.length;
+		}
+		app.registerComponent=function(component){
+			if (typeof(component)=='object')
+				components.push(component);
+		}
+		// 返回这个副本
+		return app;
+	}
+
+	</script>
+</body>

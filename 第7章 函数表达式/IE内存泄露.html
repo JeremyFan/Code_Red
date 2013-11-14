@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<head>
+<meta charset="utf-8" />
+<title>低版本IE内存泄露问题</title>
+</head>
+<body>
+	<input id='btn' type='button' value='click me' />
+	<script>
+	function assignHandler(){
+		var element=document.getElementById('btn');
+		element.onclick=function(){
+			alert(element.id);
+		}
+	}
+	assignHandler();
+
+	// IE9之前的版本对JScript对象和COM对象使用不同的垃圾收集例程。因此闭包在IE的这些版本中会导致一些特殊的问题。具体来说，如果闭包的作用域链中保存着一个HTML元素，那么就意味着该元素将无法被销毁。
+
+	// 解决方案；
+	function assignHandler2(){
+		var element=document.getElementById('btn');
+		var id=element.id;
+		element.onclick=function(){
+			alert(id);
+		}
+		element=null;
+	}
+
+	</script>
+</body>
