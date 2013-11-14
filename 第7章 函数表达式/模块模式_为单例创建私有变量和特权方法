@@ -16,6 +16,7 @@
 </style>
 </head>
 <body>
+	<p>附赠一个水平、垂直都居中的div，来自司徒正美的博客</p>
 	<div id='d'></div>
 	<script>
 	// 所谓单例（singleton），指的就是只有一个实例的对象
