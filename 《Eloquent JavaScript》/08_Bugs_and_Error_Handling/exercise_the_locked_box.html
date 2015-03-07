@@ -1,0 +1,70 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>exercise the locked box</title>
+</head>
+<body>
+	<p>
+		有个对象
+		<pre>
+	var box = {
+	  locked: true,
+	  unlock: function() { this.locked = false; },
+	  lock: function() { this.locked = true;  },
+	  _content: [],
+	  get content() {
+	    if (this.locked) throw new Error("Locked!");
+	    return this._content;
+	  }
+	};
+		</pre>
+		不能直接访问_content属性。
+		需要写一个函数，以另一个函数作为参数，开锁，执行函数，然后再把box锁上。
+	</p>
+
+	<script>
+		var box = {
+		  locked: true,
+		  unlock: function() { this.locked = false; },
+		  lock: function() { this.locked = true;  },
+		  _content: [],
+		  get content() {
+		    if (this.locked) throw new Error("Locked!");
+		    return this._content;
+		  }
+		};
+
+		/// 如果锁是开的，直接执行函数。如果锁是锁上的，先开锁，再执行函数。finally块确保再把宝箱锁上。
+		function withBoxUnlocked(body) {
+		  // Your code here.
+		  if(!box.locked){
+		  	return body();
+		  }
+
+		  box.unlock();
+
+		  try{
+		  	return body();
+		  }
+		  finally{
+		  	box.lock();
+		  }
+
+		}
+
+		withBoxUnlocked(function() {
+		  box.content.push("gold piece");
+		});
+
+		try {
+		  withBoxUnlocked(function() {
+		    throw new Error("Pirates on the horizon! Abort!");
+		  });
+		} catch (e) {
+		  console.log("Error raised:", e);
+		}
+		console.log(box.locked);
+	</script>
+</body>
+
+</html>

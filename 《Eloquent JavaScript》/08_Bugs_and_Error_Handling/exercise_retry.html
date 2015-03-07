@@ -1,0 +1,53 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>exercise retry</title>
+</head>
+<body>
+	<p>
+		有个函数primitiveMultiply(a, b)，有50%的几率返回 a*b，另外50%的几率抛出一个MultiplicatorUnitFailure的异常。
+
+		写一个函数包裹primitiveMultiply，保证能得到a*b结果。
+
+		注意处理异常要处理MultiplicatorUnitFailure~
+	</p>
+
+	<script>
+		function MultiplicatorUnitFailure(message) {
+			this.message=message;
+			this.stack=(new Error()).stack;
+		}
+		MultiplicatorUnitFailure.prototype=Object.create(Error.prototype);
+		MultiplicatorUnitFailure.prototype.name="MultiplicatorUnitFailure";
+
+		function primitiveMultiply(a, b) {
+		  if (Math.random() < 0.5)
+		    return a * b;
+		  else
+		    throw new MultiplicatorUnitFailure();
+		}
+
+		/// 只处理MultiplicatorUnitFailure异常，其他异常正常抛出。
+		/// primitiveMultiply正常执行的时候，函数return，终止无线循环
+		function reliablMultiplicatorUnitFailureeMultiply(a, b) {
+			// Your code here.
+			while(true){
+
+				try{
+					return primitiveMultiply(a,b);
+				}
+				catch(e){
+					if(e instanceof MultiplicatorUnitFailure)
+						console.log('multiplicator unit failure, primitiveMultiply again.');
+					else
+						throw e;
+				}
+			}
+
+		}
+
+		console.log(reliableMultiply(8, 8));
+	</script>
+</body>
+
+</html>
