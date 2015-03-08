@@ -1,0 +1,65 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+	<p>
+		可以使用finally做清理工作。
+		比如：
+		<pre>
+	var context = null;
+
+	function withContext(newContext, body) {
+	  var oldContext = context;
+	  context = newContext;
+	  var result = body();
+	  context = oldContext;
+	  return result;
+	}
+		</pre>
+
+		这个函数想用一个新的上下文执行body，执行完后再恢复原来的上下文。
+		但如果body执行时出现了问题，上下文就恢复不了了。
+		所以需要用try包裹执行函数的语句，在finally里恢复原来的上下文。
+
+	</p>
+	<script>
+		var context=null;
+		
+		/// 原来的
+		// function withContext(newContext, body) {
+		//   var oldContext = context;
+		//   context = newContext;
+		//   var result = body();
+		//   context = oldContext;
+		//   return result;
+		// }
+
+		/// 改进后的
+		function withContext(newContext, body) {
+		  var oldContext = context;
+		  context = newContext;
+		  try{
+		  	return body();
+		  }
+		  finally{
+		  	context = oldContext;
+		  }
+		}
+
+		try {
+		  withContext(5, function() {
+		    if (context < 10)
+		      throw new Error("Not enough context!");
+		  });
+		} catch (e) {
+		  console.log("Ignoring: " + e);
+		}
+		// → Ignoring: Error: Not enough context!
+
+		console.log(context);
+		// → null
+	</script>
+</body>
+</html>

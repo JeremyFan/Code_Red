@@ -1,0 +1,29 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title></title>
+</head>
+<body>
+	<p>
+		对于程序员自己的错误，可以强制验证，然后抛出异常。比如页面的代码。
+	</p>
+	<script>
+		function AssertionFailed(message){
+			this.message=message;
+		}
+		AssertionFailed.prototype=Object.create(Error.prototype);
+
+		function assert(test,message){
+			if(!test)
+				throw new AssertionFailed(message);
+		}
+
+		/// 这个函数获取数组的最后一个元素
+		/// 有时候程序员调用时传入数组是空，这是没有意义的。所以可以做强制验证。
+		function lastElement(array){
+			assert(array.length>0,'empty array in lastElement');
+			return array[array.length-1];
+		}
+	</script>
+</body>
+</html>

@@ -1,0 +1,77 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>testing</title>
+</head>
+<body>
+	<p>
+		单元测试，不用每次修改完代码后，都手动把可能的数据都测一遍，直接跑一遍测试方法就行。
+	</p>
+	<script>
+		function Vector(x,y){
+			this.x=x;
+			this.y=y;
+		}
+		Vector.prototype.plus=function(other){
+			return new Vector(this.x+other.x,this.y+other.y);
+		}
+
+		function testVector(){
+			var p1=new Vector(10,20);
+			var p2=new Vector(-10,5);
+			var p3=p1.plus(p2);
+
+			if(p1.x!==10) return 'fail: x property';
+			if(p1.y!==20) return 'fail: y property';
+			if(p2.x!==-10) return 'fail: negative x property';
+			if(p3.x!==0) return 'fail: x from plus';
+			if(p3.y!==25) return 'fail: y from plus';
+			return 'everything ok.';
+		}
+
+		console.log(testVector());
+
+		/// 感觉是不是可以写的更细一点呢？每个功能测试成功后，都有一个提示
+		/// 即使有功能出错了，还能继续测试下面的，一次测试所有功能。
+		/// 但代码有点冗余，不好看了。。。哈哈
+		function myTestVector(){
+			var p1=new Vector(10,20);
+			var p2=new Vector(-10,5);
+			var p3=p1.plus(p2);
+
+			if(p1.x!==10) {
+				console.error('fail: x property');
+			}
+			else{
+				console.log('success: x property');
+			}
+			if(p1.y!==20) {
+				console.error('fail: y property');
+			}
+			else{
+				console.log('success: y property');
+			}
+			if(p2.x!==-10) {
+				console.error('fail: negative x property');
+			}
+			else{
+				console.log('success: negative x property');
+			}
+			if(p3.x!==0) {
+				console.error('fail: x from plus');
+			}
+			else{
+				console.log('success: x from plus');
+			}
+			if(p3.y!==25) {
+				console.error('fail: y from plus');
+			}
+			else{
+				console.log('success: y from plus');
+			}
+		}
+
+		myTestVector();
+	</script>
+</body>
+</html>
