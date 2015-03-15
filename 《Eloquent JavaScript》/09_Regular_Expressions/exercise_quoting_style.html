@@ -1,0 +1,19 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Quoting Style</title>
+</head>
+<body>
+	<p>
+		把引用时用的 ' 替换成 " ，但类似it's中的 不被替换。
+	</p>
+	<script>
+		var text = "'I'm the cook,' he said, 'it's my job.'";
+		// Change this call.
+		console.log(text.replace(/(^|\W)'|'(\W|$)/g, '$1"$2'));
+		// → "I'm the cook," he said, "it's my job."
+
+		// 注意替换时仍需要匹配的内容$1，$2
+	</script>
+</body>
+</html>

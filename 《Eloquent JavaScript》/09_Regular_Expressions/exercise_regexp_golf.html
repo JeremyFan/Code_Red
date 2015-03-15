@@ -1,0 +1,87 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>RegExp Golf</title>
+</head>
+<body>
+	<p>
+		写正则，尽量短：
+		<pre>
+	1.car and cat
+	2.pop and prop
+	3.ferret, ferry, and ferrari
+	4.Any word ending in ious
+	5.A whitespace character followed by a dot, comma, colon, or semicolon
+	6.A word longer than six letters
+	7.A word without the letter e
+		</pre>
+	</p>
+	<script>
+
+		// Fill in the regular expressions
+
+		// 1.car and cat
+		verify(/ca(r|t)/,
+		       ["my car", "bad cats"],
+		       ["camper", "high art"]);
+		// better
+		verify(/ca[rt]/,
+		       ["my car", "bad cats"],
+		       ["camper", "high art"]);
+
+		// 2.pop and prop
+		verify(/pr?op/,
+		       ["pop culture", "mad props"],
+		       ["plop"]);
+
+		// 3.ferret, ferry, and ferrari
+		verify(/ferr(et|y|ari)/,
+		       ["ferret", "ferry", "ferrari"],
+		       ["ferrum", "transfer A"]);
+
+		// 4.Any word ending in ious
+		verify(/\wious\b/,
+		       ["how delicious", "spacious room"],
+		       ["ruinous", "consciousness"]);
+		// anwser in book
+		verify(/ious\b/,
+		       ["how delicious", "spacious room"],
+		       ["ruinous", "consciousness"]);
+
+		// 5.A whitespace character followed by a dot, comma, colon, or semicolon
+		verify(/\s(\.|\,|\:|\;)/,
+		       ["bad punctuation ."],
+		       ["escape the dot"]);
+		// better (forget the ':' ?)
+		verify(/\s[.,;]/,
+       ["bad punctuation ."],
+       ["escape the dot"]);
+
+		// 6.A word longer than six letters
+		verify(/\w{7,}/,
+		       ["hottentottententen"],
+		       ["no", "hotten totten tenten"]);
+
+		// 7.A word without the letter e
+		// 注意不能/\b[^e]\b/，这会匹配单词之间的空格
+		verify(/\b[a-df-z]+\b/,
+		       ["red platypus", "wobbling nest"],
+		       ["earth bed", "learning ape"]);
+
+		function verify(regexp,yes,no){
+			// Ignore unfinished exercises
+			if(regexp.source=='...') return;
+
+			yes.forEach(function(s){
+				if(!regexp.test(s))
+					console.log("Failure to match '" + s + "'");
+			});
+
+			no.forEach(function(s){
+				if(regexp.test(s))
+					console.log("Unexpected match for '" + s + "'");
+			})
+		}
+	</script>
+</body>
+</html>
