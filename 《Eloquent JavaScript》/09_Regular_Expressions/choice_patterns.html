@@ -1,0 +1,15 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Choice patterns</title>
+</head>
+<body>
+	<script>
+		var animalCount=/\b\d+ (pig|cow|chicken)s?\b/;
+
+		console.log(animalCount.test('15 pigs.'));
+
+		console.log(animalCount.test('15 pigchickens'));
+	</script>
+</body>
+</html>

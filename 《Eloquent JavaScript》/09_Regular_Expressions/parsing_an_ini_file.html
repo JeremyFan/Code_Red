@@ -1,0 +1,42 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>parsing an INI file</title>
+</head>
+<body>
+	<script>
+		// 假设已经读取INI文件并转换为字符串
+
+		var ini='searchengine=http://www.google.com/search?q=$1\nspitefulness=9.7\n\n; comments are preceded by a semicolon...\n; each section concerns an individual enemy\n[larry]\nfullname=Larry Doe\ntype=kindergarten bully\nwebsite=http://www.geocities.com/CapeCanaveral/11451\n\n[gargamel]\nfullname=Gargamel\ntype=evil sorcerer\noutputdir=/home/marijn/enemies/gargamel\n';
+
+		function parseINI(string){
+			var currentSection={name:null,fields:[]};
+			var categories=[currentSection];
+
+			string.split(/\r?\n/).forEach(function(line){
+				var match;
+				if(/^\s*(;.*)?$/.test(line)){
+					return
+				}
+				// 觉得这里可以借鉴，line.match(/^\[(.*)\]$/)存在时才会执行，并且要在if里对line.match(/^\[(.*)\]$/)操作，可以直接在判断的时候把这个复杂的值赋给match，方便操作
+				else if(match=line.match(/^\[(.*)\]$/)){
+					currentSection={name:match[1],fields:[]};
+					categories.push(currentSection);
+				}
+				else if(match=line.match(/^(\w+)=(.*)$/)){
+					currentSection.fields.push({name:match[1],value:match[2]});
+				}
+				else{
+					throw new Error("Line '"+line+"' is invalid");
+				}
+			})
+
+			return categories;
+		}
+
+
+		console.log(parseINI(ini));
+
+	</script>
+</body>
+</html>

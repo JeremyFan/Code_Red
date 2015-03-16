@@ -1,0 +1,33 @@
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>lastIndex</title>
+</head>
+<body>
+	<script>
+		var pattern=/y/g;
+		pattern.lastIndex=3;
+		var match=pattern.exec('xyzzy');
+		console.log(match.index);
+		console.log(pattern.lastIndex);
+
+		var digit=/\d/g;
+		console.log(digit.exec('here it is: 1'));
+		console.log(digit.exec('and now: 1'));
+
+
+		// 附：全局匹配对match()的影响
+		var match2='Banana'.match(/an/g)
+		console.log(match2);
+		console.log(match2.index);
+
+		// 附2：遍历匹配
+		var input='A string with 3 numbers in it... 42 and 88.';
+		var number=/\b(\d+)\b/g;
+		var match;
+		while(match=number.exec(input))
+			console.log('Found', match[1], 'at', match.index);
+
+	</script>
+</body>
+</html>
