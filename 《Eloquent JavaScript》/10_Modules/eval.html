@@ -4,14 +4,22 @@
 	<title>eval</title>
 </head>
 <body>
+
+	<p>两种能把String当JavaScript代码执行的方法</p>
+
 	<script>
-	  var global='global';
+	  // 1.使用eval
+	  function evalAndReturnX(code) {
+	  	eval(code);
+	  	return x;
+	  }
 
-		var foo="function func(){return global;}";
+	  console.log(evalAndReturnX('var x=2'));，
 
-		eval(foo);
 
-		// console.log(bar);
+	  // 2.使用Function
+	  var plusOne = new Function('n', 'return n+1');
+	  console.log(plusOne(4));
 
 	</script>
 </body>

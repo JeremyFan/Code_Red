@@ -5,14 +5,14 @@
 </head>
 <body>
 	<script>
-		var month=function(month){
-			var months=['January','February','March','April','May','June','July','August','September','October','November','December'];
+		var month = function(month) {
+			var months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
 			return {
-				name:function(number){
+				name: function(number) {
 					return months[number];
 				},
-				number:function(name){
+				number: function(name) {
 					return months.indexOf(name);
 				}
 			}
