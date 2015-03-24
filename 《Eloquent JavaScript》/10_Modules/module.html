@@ -1,0 +1,73 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>eval</title>
+</head>
+<body>
+  <p>模块化</p>
+  <script>
+    /* 1.
+    var names=["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+    function dayName(number){
+      return names[number];
+    }
+
+    console.log(dayName(1));
+
+    */
+
+    /* names不应该是全局变量，所以
+    // 2.
+    var dayName=function(){
+      var names=["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+      return function(number){
+        return names[number];
+      }
+    }()
+
+    console.log(dayName(2));
+
+    */
+
+    /* 需要暴露更多的函数作为接口，所以
+    // 3.
+    var weekDay=function(){
+      var names = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+      return {
+        number:function(name){
+          return names.indexOf(name);
+        },
+        name:function(number){
+          return names[number];
+        }
+      }
+
+    }();
+
+    console.log(weekDay.number('Sunday'), weekDay.name(1));
+
+    */
+
+    // 接口不应该全部直接包裹在一个对象，所以
+    // 4.
+
+    (function(exports) {
+      var names = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+
+      exports.number = function(name) {
+        return names.indexOf(name);
+      }
+
+      exports.name = function(number) {
+        return names[number];
+      }
+
+    })(this.weekDay = {});
+
+    console.log(weekDay.number('Sunday'), weekDay.name(1));
+
+  </script>
+</body>
+</html>
