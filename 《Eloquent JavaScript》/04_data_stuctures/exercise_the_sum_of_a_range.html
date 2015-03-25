@@ -1,0 +1,49 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>exercise</title>
+</head>
+<body>
+  <p>
+    写一个range方法，接受3个参数，返回一个数组。前两个是范围，第三个是可选参数，表示数组元素的增幅。
+
+    写一个sum方法，计算数组中元素的总和。
+  </p>
+  <script>
+
+  // Your code here.
+  function sum(numberlist){
+    var sum=0;
+    for(var i=0;i<numberlist.length;i++){
+      sum+=numberlist[i];
+    }
+    return sum;
+  }
+
+  function range(start,end,step){
+    // step是可选参数，默认为1
+    if(step==null) step=1;
+    var arr=[];
+      i=start;
+    if(step>0){
+      for(;i<=end;i+=step){
+        arr.push(i);
+      }
+    }
+    else{
+      for(;i>=end;i+=step){
+        arr.push(i);
+      }
+    }
+
+    return arr;
+  }
+
+
+  console.log(sum(range(1, 10)));
+  // → 55
+  console.log(range(5, 2, -1));
+  // → [5, 4, 3, 2]
+  </script>
+</body>
+</html>
