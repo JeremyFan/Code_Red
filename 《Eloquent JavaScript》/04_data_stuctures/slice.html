@@ -1,0 +1,18 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>slice</title>
+</head>
+<body>
+  <p>
+    用slice实现删除数组指定的元素
+  </p>
+  <script>
+    function remove(array,index){
+      return array.slice(0, index).concat(array.slice(index+1));
+    }
+
+    console.log(remove(["a", "b", "c", "d", "e"], 2));
+  </script>
+</body>
+</html>

@@ -1,0 +1,27 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Math对象</title>
+</head>
+<body>
+  <p>
+    使用Math对象随机生成指定半径圆上的点。
+  </p>
+  <script>
+    function randomPointOnCircle(radius) {
+      var angle = Math.random() * 2 * Math.PI;
+      return {
+        x: radius * Math.cos(angle),
+        y: radius * Math.sin(angle)
+      }
+    }
+
+    var p=randomPointOnCircle(2);
+    console.log(randomPointOnCircle(2));
+
+    var r=Math.sqrt(Math.pow(p.x,2)+Math.pow(p.y,2));
+    console.log(r);
+    // 有时候输出不是2。。。是1.9999999999999998 -.-
+  </script>
+</body>
+</html>
