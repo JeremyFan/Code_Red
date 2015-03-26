@@ -62,6 +62,23 @@
       console.log(correlations.pizza);
       // → 0.068599434
 
+      // 这个方法我们可以写的更加优雅
+      function gatherCorrelations2(journal){
+        var phis={};
+
+        journal.forEach(function(entry){
+          var events=entry.events;
+          events.forEach(function(event){
+            if(!(event in phis))
+              phis[event]=phi(tableFor(event,journal));
+          })
+        })
+        return phis;
+      }
+      var correlations = gatherCorrelations(JOURNAL);
+      console.log(correlations.pizza);
+      // → 0.068599434
+
       // 输出所有事件的对应关系
       /*
       for(var event in correlations)
