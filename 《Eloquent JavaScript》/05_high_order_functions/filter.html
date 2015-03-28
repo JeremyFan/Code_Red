@@ -1,0 +1,35 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>filter</title>
+</head>
+<body>
+  <p>
+    抽象数组过滤
+  </p>
+  <script src="ancestry_data.js"></script>
+  <script>
+    var ancestry=JSON.parse(ANCESTRY_FILE);
+
+    function filter(array,test){
+      var passed=[];
+      for(var i=0;i<array.length;i++){
+        if(test(array[i]))
+          passed.push(array[i]);
+      }
+      return passed;
+    }
+
+    console.log(filter(ancestry,function(person){
+      return person.born>1900 && person.born <1925;
+    }));
+
+
+    // filter是数组的标准方法
+    console.log(ancestry.filter(function(person){
+      return person.father=='Carel Haverbeke';
+    }))
+
+  </script>
+</body>
+</html>

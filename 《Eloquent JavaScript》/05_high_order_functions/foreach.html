@@ -1,0 +1,52 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>forEach</title>
+</head>
+<body>
+  <p>
+    抽象数组遍历
+  </p>
+  <script>
+    // 假设有一个循环，遍历数组并输出元素
+    var array=[1,2,3];
+    for(var i=0;i<array.length;i++){
+      var current=array[i];
+      console.log(current);
+    } 
+
+    // 我们可以抽象一个遍历数组的方法
+    function logEach(array){
+      for(var i=0;i<array.length;i++)
+        console.log(array[i]);
+    }
+    // 调用
+    // 和上面一样的效果
+    logEach(array);
+
+
+    // 但是这个抽象只能遍历数组并输出元素，我们可以把操作数组的动作作为参数，让遍历方法更好用
+    function forEach(array,action){
+      for(var i=0;i<array.length;i++)
+        action(array[i]);
+    }
+    // forEach(array,console.log);
+    // 正常情况下输出应该是和上面一样的
+    // 但是有些浏览器里console.log并不能输出，而是报了一个Illegal invocation的错。（mac chrome）
+    // 去stackoverflow看了一下，说console.log职能在this指向console的时候才能正常调用
+    // "The console.log function only works when the receiver(this) is the console(in fact, it's browser dependent)."
+    var sum=0;
+    forEach(array,function(number){
+      sum+=number;
+    })
+    console.log(sum); // 6
+
+    // forEach是数组的标准方法
+    array.forEach(function(number){
+      console.log(number);
+    }) 
+
+
+  </script>
+</body>
+</html>
