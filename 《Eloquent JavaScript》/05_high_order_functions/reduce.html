@@ -22,6 +22,7 @@
     return a+b;
   },0)); // 10
 
+  var min=ancestry[0];
   console.log(ancestry.reduce(function(min,cur){
     if(cur.born < min.born) return cur;
     else return min;
