@@ -1,0 +1,28 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>bind</title>
+</head>
+<body>
+  <p>
+    bind
+  </p>
+  <script src="ancestry_data.js"></script>
+  <script>
+  var ancestry=JSON.parse(ANCESTRY_FILE);
+
+  var theSet=["Carel Haverbeke", "Maria van Brussel", "Donald Duck"];
+  function isInSet(set,person){
+    return set.indexOf(person.name)>-1;
+  }
+
+  console.log(ancestry.filter(function(person){
+    return isInSet(theSet, person);
+  }));
+
+  // 可以使用bind
+  console.log(ancestry.filter(isInSet.bind(null, theSet)));
+  // 和上面输出一样的结果
+  </script>
+</body>
+</html>
