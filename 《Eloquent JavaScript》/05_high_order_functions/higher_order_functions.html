@@ -1,0 +1,50 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>higher-order functions</title>
+</head>
+<body>
+  <p>
+    higher-order functions
+  </p>
+  <script src="ancestry_data.js"></script>
+  <script>
+    // 高阶函数创建函数 
+    function greaterThan(n){
+      return function(m){
+        return m>n;
+      }  
+    }
+    var greaterThan10=greaterThan(10);
+    console.log(greaterThan10(11));
+
+    // 高阶函数改变其他的函数
+    // 感觉这个和上面的比较像，但一个是传值，一个是传函数
+    function noisy(f){
+      return function(arg){
+        console.log('calling with',arg);
+        var val=f(arg);
+        console.log('called with',arg,' - got',val);
+        return val;
+      }
+    }
+    noisy(Boolean)(0);
+    noisy(function(n){return n*n;})(10);
+
+    // 使用高阶函数创建新的控制流
+    function unless(test,then){
+      if(!test) then();
+    }
+    function repeat(times,body){
+      for(var i=0;i<times;i++) body(i);
+    }
+    repeat(3,function(n){
+      unless(n%2,function(){
+        console.log(n+' is even.');
+      })
+    })
+
+
+  </script>
+</body>
+</html>
