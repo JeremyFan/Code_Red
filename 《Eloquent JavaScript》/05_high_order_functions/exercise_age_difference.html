@@ -1,0 +1,42 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>mother-child age difference</title>
+</head>
+<body>
+  <p>
+    计算mama生baby的平均年龄
+  </p>
+  <script src="ancestry_data.js"></script>
+  <script>
+  var ancestry=JSON.parse(ANCESTRY_FILE);
+
+  function average(array) {
+    function plus(a, b) { return a + b; }
+    return array.reduce(plus) / array.length;
+  }
+
+  var byName = {};
+  ancestry.forEach(function(person) {
+    byName[person.name] = person;
+  });
+
+  // Your code here.
+  // 过滤数组，有mother属性 且 mother在数组中
+  function hasKnownMother(p){
+    // return p.mother!=null && byName[p.mother];
+    // 这个判断可以简洁一些
+    return byName[p.mother]!=null;
+  }
+
+  function getDiff(p){
+    return p.born-byName[p.mother].born;
+  }
+
+  // console.log(average(getDiff()));
+  console.log(average(ancestry.filter(hasKnownMother).map(getDiff)));
+
+  // → 31.2
+  </script>
+</body>
+</html>

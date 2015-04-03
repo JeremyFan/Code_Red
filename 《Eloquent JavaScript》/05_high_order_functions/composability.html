@@ -1,0 +1,32 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>composability</title>
+</head>
+<body>
+  <p>
+    composability
+
+    计算平均年龄
+  </p>
+  <script src="ancestry_data.js"></script>
+  <script>
+  var ancestry=JSON.parse(ANCESTRY_FILE);
+
+  // 这个demo很经典，把要做的事拆分成小块，思路清晰
+  // 每个函数只做一件小事
+
+  function average(array){
+    function plus(a,b){return a+b;}
+    return array.reduce(plus)/array.length;
+  }
+
+  function age(p){return p.died-p.born;}
+  function male(p){return p.sex=='m';}
+  function female(p){return p.sex=='f';}
+
+  console.log(average(ancestry.filter(male).map(age)));
+  console.log(average(ancestry.filter(female).map(age)));
+  </script>
+</body>
+</html>
