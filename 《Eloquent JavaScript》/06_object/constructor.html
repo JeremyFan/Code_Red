@@ -1,0 +1,34 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>constructor</title>
+</head>
+<body>
+  <p>
+
+  </p>
+  <script>
+    // 我们可以使用Object.create创建一个指定原型的对象
+    var protoRabbit={
+      speak:function(line){
+        console.log('The '+this.type+" rabbit says '"+line +"'" );
+      }
+    }
+    var killerRabbit=Object.create(protoRabbit);
+    killerRabbit.type='killer';
+    killerRabbit.speak('SKREEEE!');
+
+    // 但是更方便的创建指定原型对象的方法是使用构造函数
+    function Rabbit(type){
+      this.type=type;
+    }
+    var killerRabbit=new Rabbit('killer');
+    var blackRabbit=new Rabbit('black');
+    console.log(blackRabbit.type);
+    Rabbit.prototype.speak=function(line){
+      console.log('The '+this.type+" rabbit says '"+line +"'" );
+    }
+    blackRabbit.speak('Doom...');
+  </script>
+</body>
+</html>
