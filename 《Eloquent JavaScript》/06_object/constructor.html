@@ -29,6 +29,15 @@
       console.log('The '+this.type+" rabbit says '"+line +"'" );
     }
     blackRabbit.speak('Doom...');
+
+    // 可以直接覆盖原型中定义的属性，但原型中的属性依然存在
+    Rabbit.prototype.teeth='small';
+    console.log(killerRabbit.teeth);
+
+    killerRabbit.teeth='long, sharp, and bloody';
+    console.log(killerRabbit.teeth);
+    console.log(blackRabbit.teeth);
+    console.log(Rabbit.prototype.teeth);
   </script>
 </body>
 </html>

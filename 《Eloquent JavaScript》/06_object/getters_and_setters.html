@@ -1,0 +1,30 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>getters and setters</title>
+</head>
+<body>
+  <script>
+  // JavaScript提供了方便的方法设置setter和getter
+  var pile={
+    elements:["eggshell", "orange peel", "worm"],
+    get height(){
+      return this.elements.length;
+    },
+    set height(value){
+      console.log("Ignoring attempt to set height to", value);
+    }
+  }
+  console.log(pile.height);
+  pile.height=100;
+
+  // 为已存在的对象设置一个只读属性
+  Object.defineProperty(pile,'width',{
+    get:function(){return this.elements.length*100}
+  })
+  console.log(pile.width);
+  pile.width=1000;
+  console.log(pile.width);
+  </script>
+</body>
+</html>

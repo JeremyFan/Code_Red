@@ -1,0 +1,73 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>enumerable and nonenumerable properties</title>
+</head>
+<body>
+  <script>
+    var map = {};
+
+    function storePhi(event, phi) {
+      map[event] = phi;
+    }
+    storePhi("pizza", 0.069);
+    storePhi("touched tree", -0.081);
+
+    Object.prototype.nonSense = 'hi';
+
+    // for/in循环会遍历出原型中的属性
+    for (var name in map)
+      console.log(name);
+
+    console.log('nonSense' in map);
+    console.log('toString' in map);
+
+    // 但noSense和toString两个属性都是原型中的属性，却没有遍历出toString
+    // 这是因为Object.prototype中的标准属性都是不可枚举（nonenumerable）属性
+    // 自己通过简单赋值定义的属性都是可枚举（enumerable）属性
+
+    // 我们可以通过Object.defineProperty()定义不可枚举属性
+    Object.defineProperty(Object.prototype,'hiddenNonsense',{enumerable:false,value:'hi'});
+
+    for (var name in map)
+      console.log(name);
+
+    console.log(map.hiddenNonsense);
+    console.log('hiddenNonsense' in map);
+
+    // 使用in检测符检测hiddenNonsense仍然返回true
+    // 我们可以使用hasOwnProperty方法判断属性是否是对象本身的属性
+    console.log(
+      map.hasOwnProperty('hiddenNonsense'),
+      map.hasOwnProperty('nonSense'),
+      map.hasOwnProperty('pizza'));
+
+    // 我们可以这样遍历对象本身的属性
+    for(var name in map){
+      if(map.hasOwnProperty(name))
+        console.log(name);
+    }
+
+    // 可以如果有人修改Object.prototype...
+    Object.prototype.hasOwnProperty=function(){
+      return true;
+    }
+    // 这时候for/in 就会遍历出所有的可枚举属性
+    for(var name in map){
+      if(map.hasOwnProperty(name))
+        console.log(name);
+    }
+
+    console.log('-----\n');
+
+    // 其实我们可以创建一个没有原型的对象，彻底断绝后顾之忧
+    var newMap=Object.create(null);
+    newMap['apple']=1;
+    newMap['banana']=2;
+    Object.prototype.water=3;
+    for(var fruit in newMap)
+      console.log(fruit);
+
+  </script>
+</body>
+</html>
