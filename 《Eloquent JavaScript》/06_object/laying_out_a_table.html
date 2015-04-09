@@ -1,0 +1,187 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>laying out a table</title>
+</head>
+<body>
+  <p>
+    按照规则打印一个表格
+    <pre>
+      name         height country
+      ------------ ------ -------------
+      Kilimanjaro    5895 Tanzania
+      Everest        8848 Nepal
+      Mount Fuji     3776 Japan
+      Mont Blanc     4808 Italy/France
+      Vaalserberg     323 Netherlands
+      Denali         6168 United States
+      Popocatepetl   5465 Mexico
+    </pre>
+  </p>
+  <script>
+    /*
+     * 首先每个单元格的接口：
+     * minHeight()          单元格高度，单位是行
+     * minWidth()           单元格宽度，单位是字符
+     * draw(width, height)  单元格内容，返回数组，长度为单元格高度，每个元素是单行字符串
+     */
+
+    /* 我们要先计算出表格每行的高度和每列的宽度 */
+    function rowHeights(rows){
+      return rows.map(function(row){
+        return row.reduce(function(max, cell){
+          return Math.max(max, cell.minHeight());
+        },0);
+      });
+    }
+    function colWidths(rows){
+      return rows[0].map(function(_,i){
+        return rows.reduce(function(max, row){
+          return Math.max(max, row[i].minWidth());
+        },0)
+      })
+    }
+
+    /* 于是我们可以这样画出表格 */
+    function drawTable(rows){
+      var heights=rowHeights(rows),
+        widths=colWidths(rows);
+
+      function drawLine(blocks, lineNo){
+        return blocks.map(function(block){
+          return block[lineNo];
+        }).join(' ');
+      }
+
+      function drawRow(row, rowNum){
+        var blocks=row.map(function(cell,colNum){
+          return cell.draw(widths[colNum], heights[rowNum]);
+        });
+        return blocks[0].map(function(_, lineNo){
+          return drawLine(blocks, lineNo);
+        }).join('\n');
+      }
+
+      return rows.map(drawRow).join('\n');
+    }
+
+    /* 下面开始写最基础的Cell类 */
+    function TextCell(text){
+      this.text=text.split('\n');
+    }
+    TextCell.prototype.minWidth=function(){
+      return this.text.reduce(function(max, line){
+        return Math.max(max, line.length);
+      },0)
+    }
+    TextCell.prototype.minHeight=function(){
+      return this.text.length;
+    }
+    TextCell.prototype.draw=function(width, height){
+      var result=[];
+      for(var i=0;i<height;i++){
+        var line=this.text[i]||'';
+        result.push(line+repeat(' ',width-line.length));
+      }
+      return result;
+    }
+    // repeat方法，重复拼接string（用于单元格拼空格，拼下划线等）
+    function repeat(string, times){
+      var result='';
+      for(var i=0;i<times;i++)
+        result+=string;
+      return result;
+    }
+
+
+    /* ----- 
+     *这里是测试数据 
+     * ----- */
+    var MOUNTAINS = [
+      {name: "Kilimanjaro", height: 5895, country: "Tanzania"},
+      {name: "Everest", height: 8848, country: "Nepal"},
+      {name: "Mount Fuji", height: 3776, country: "Japan"},
+      {name: "Mont Blanc", height: 4808, country: "Italy/France"},
+      {name: "Vaalserberg", height: 323, country: "Netherlands"},
+      {name: "Denali", height: 6168, country: "United States"},
+      {name: "Popocatepetl", height: 5465, country: "Mexico"}
+    ];
+
+    /* 为了让表格有个标题，我们需要另一个类UnderlinedCell */
+    function UnderlinedCell(inner){
+      this.inner=inner;
+    }
+    UnderlinedCell.prototype.minWidth=function(){
+      return this.inner.minWidth();
+    }
+    UnderlinedCell.prototype.minHeight=function(){
+      return this.inner.minHeight()+1;
+    }
+    UnderlinedCell.prototype.draw=function(width, height){
+      return this.inner.draw(width,height-1).concat([repeat('-', width)]);
+    }
+
+    /* 为了把数据转化成可打印的表格 */
+    function dataTable(data){
+      // Object.keys以数组形式返回对象的属性
+      var keys=Object.keys(data[0]);
+      var headers=keys.map(function(name){
+        return new UnderlinedCell(new TextCell(name));
+      })
+      var body=data.map(function(row){
+        return keys.map(function(name){
+          return new TextCell(String(row[name]));
+        });
+      });
+      return [headers].concat(body);
+    }
+
+    console.log(drawTable(dataTable(MOUNTAINS)));
+
+
+    /* 
+     * 对于数字，我们希望右对齐
+     * 所以我们创建一个RTextCell类，继承自TextCell
+     */
+    function RTextCell(text){
+      TextCell.call(this,text);
+    }
+    RTextCell.prototype=Object.create(TextCell.prototype);
+    RTextCell.prototype.draw=function(width, height){
+      var result=[];
+      for(var i=0;i<height;i++){
+        var line=this.text[i]||'';
+        result.push(repeat(' ',width-line.length)+line);
+      }
+      return result;
+    }
+
+    /* 我们再稍微修改一下dataTable方法 */
+    function newDataTable(data){
+      var keys=Object.keys(data[0]);
+      var headers=keys.map(function(name){
+        return new UnderlinedCell(new TextCell(name));
+      })
+      var body=data.map(function(row){
+        return keys.map(function(name){
+          var value=row[name];
+          if(typeof value=='number')
+            return new RTextCell(String(value));
+          else
+            return new TextCell(String(value));
+        });
+      })
+      return [headers].concat(body);
+    }
+    console.log('\n');
+    console.log(drawTable(newDataTable(MOUNTAINS)));
+
+    /*------------------------*\
+     * 这样看起来就比较完美了 *
+     * the end                *
+    \*------------------------*/
+
+
+  </script>
+</body>
+</html>

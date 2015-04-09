@@ -1,0 +1,147 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Sequence interface</title>
+</head>
+<body>
+  <script>
+  // Your code here.
+  /*
+  function Sequence(array){
+    this.count=0;
+    this.array=array;
+  }
+  Sequence.prototype.next=function(){
+    return this.array[this.count++];
+
+  }
+  function ArraySeq(sequence){
+    return new Sequence(sequence);
+  }
+  function RangeSeq(min,max){
+    var array=[];
+    for(var i=min;i<max;i++)
+      array.push(i);
+
+    return new Sequence(array);
+  }
+
+  function logFive(sequence){
+    for(var i=0;i<5;i++){
+      if(next=sequence.next())
+        console.log(next);
+      else
+        break;
+    }
+  }
+  */
+
+  // code in book
+  // solution 1
+  function logFive(sequence){
+    for(var i=0;i<5;i++){
+      if(!sequence.next())
+        break;
+      else
+        console.log(sequence.current());
+    }
+  }
+
+  function ArraySeq(array){
+    this.pos=-1;
+    this.array=array;
+  }
+  ArraySeq.prototype.next=function(){
+    if(this.pos>=this.array.length-1)
+      return false;
+    this.pos++;
+    return true;
+  }
+  ArraySeq.prototype.current=function(){
+    return this.array[this.pos];
+  }
+
+  function RangeSeq(from, to){
+    this.pos=from-1;
+    this.to=to;
+  }
+  RangeSeq.prototype.next=function(){
+    if(this.pos>this.to)
+      return false;
+    this.pos++;
+    return true;
+  }
+  RangeSeq.prototype.current=function(){
+    return this.pos;
+  }
+
+  logFive(new ArraySeq([1, 2]));
+  // → 1
+  // → 2
+  logFive(new RangeSeq(100, 1000));
+  // → 100
+  // → 101
+  // → 102
+  // → 103
+  // → 104
+
+
+  console.log('\n')
+  // code in book
+  // solution 2
+  function logFive2(sequence){
+    for(var i=0;i<5&&sequence!=null;i++){
+      console.log(sequence.head());
+      sequence=sequence.rest();
+    }
+  }
+
+  function ArraySeq2(array, offset){
+    this.array=array;
+    this.offset=offset;
+  }
+  ArraySeq2.prototype.rest=function(){
+    return ArraySeq2.make(this.array, this.offset+1);
+  }
+  ArraySeq2.prototype.head=function(){
+    return this.array[this.offset];
+  }
+  ArraySeq2.make=function(array, offest){
+    if(offest==null)
+      offest=0;
+    if(offest>=array.length)
+      return null;
+    else
+      return new ArraySeq2(array, offest);
+  }
+
+  function RangeSeq2(from, to){
+    this.from=from;
+    this.to=to;
+  }
+  RangeSeq2.prototype.rest=function(){
+    return RangeSeq2.make(this.from+1,this.to);
+  }
+  RangeSeq2.prototype.head=function(){
+    return this.from;
+  }
+  RangeSeq2.make=function(from, to){
+    if(from>to)
+      return null;
+    else
+      return new RangeSeq2(from, to);
+  }
+
+  logFive2(ArraySeq2.make([1, 2]));
+  // → 1
+  // → 2
+  logFive2(RangeSeq2.make(100, 1000));
+  // → 100
+  // → 101
+  // → 102
+  // → 103
+  // → 104
+
+  </script>
+</body>
+</html>
