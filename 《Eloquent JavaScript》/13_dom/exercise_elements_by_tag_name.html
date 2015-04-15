@@ -1,0 +1,71 @@
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>elements by tag name</title>
+</head>
+<body>
+  <h1 id="hh">Heading with a <span>span</span> element.</h1>
+  <p>A paragraph with <span>one</span>, <span>two</span> spans.</p>
+
+<script>
+  function byTagName(node, tagName) {
+    // Your code here.
+    var result=[],
+      childNodes=node.childNodes;
+
+    if(node.nodeName.toLowerCase()==tagName) 
+      result.push(node);
+
+    for(var i in childNodes){
+      var childNode=childNodes[i];
+      if(childNode.nodeType!=document.ELEMENT_NODE)
+        continue;
+      // 注意concat返回新的数组，所以需要赋值
+      result=result.concat(byTagName(childNode,tagName));
+    }
+
+    return result;
+  }
+
+
+  console.log(byTagName(document.body, "h1").length);
+  // → 1
+  console.log(byTagName(document.body, "span").length);
+  // → 3
+  var para = document.querySelector("p");
+  console.log(byTagName(para, "span").length);
+  // → 2
+
+
+  // code in book
+  function byTagName2(node, tagName) {
+    var found = [];
+    tagName = tagName.toUpperCase();
+
+    function explore(node) {
+      for (var i = 0; i < node.childNodes.length; i++) {
+        var child = node.childNodes[i];
+        if (child.nodeType == document.ELEMENT_NODE) {
+          if (child.nodeName == tagName)
+            found.push(child);
+          explore(child);
+        }
+      }
+    }
+
+    explore(node);
+    return found;
+  }
+
+  console.log('\n');
+
+  console.log(byTagName2(document.body, "h1").length);
+  // → 1
+  console.log(byTagName2(document.body, "span").length);
+  // → 3
+  var para = document.querySelector("p");
+  console.log(byTagName2(para, "span").length);
+  // → 2
+</script>
+</body>
+</html>

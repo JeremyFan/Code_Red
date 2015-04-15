@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>array like</title>
+  </head>
+  <body>
+    <p data-classified="secret">The launch code is 00000000.</p>
+    <p data-classified="unclassified">I have two feet.</p>
+
+    <script>
+    // 这里有神奇的一招，可以把类数组转化成数组
+    var arrayish = {0: "one", 1: "two", length: 2};
+    var real=Array.prototype.slice.call(arrayish,0);
+    real.forEach(function(elt){
+      console.log(elt);
+    })
+
+    
+    var paras=document.getElementsByTagName('p');
+    Array.prototype.forEach.call(paras,function(para){
+      if(para.getAttribute('data-classified')=='secret')
+        para.parentNode.removeChild(para);
+    });
+    </script>
+  </body>
+</html>
