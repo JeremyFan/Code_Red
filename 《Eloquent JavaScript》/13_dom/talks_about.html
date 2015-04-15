@@ -10,24 +10,23 @@
       <a href="http://eloquentjavascript.net">here</a>.</p>
 
     <script>
-    	/*
-			 * talksAbout方法遍历节点下的所有文本节点，检测是否包含匹配的字符串
-    	 */
-    	function talksAbout(node, string){
-    		if(node.nodeType==document.ELEMENT_NODE){
-    			for(var i=0;i<node.childNodes.length;i++){
-    				if(node.nodeName=='SCRIPT') continue;	// 多加一句，防止遍历<script>标签下的textNode
-    				if(talksAbout(node.childNodes[i],string))
-    					return true;
-    			}
-	     		return false;
-    		}
-    		else if(node.nodeType==document.TEXT_NODE)
-    			return node.nodeValue.indexOf(string)>-1;
-    	}
+        /*
+         * talksAbout方法遍历节点下的所有文本节点，检测是否包含匹配的字符串
+         */
+        function talksAbout(node, string) {
+            if (node.nodeType == document.ELEMENT_NODE) {
+                for (var i = 0; i < node.childNodes.length; i++) {
+                    if (node.nodeName == 'SCRIPT') continue; // 多加一句，防止遍历<script>标签下的textNode
+                    if (talksAbout(node.childNodes[i], string))
+                        return true;
+                }
+                return false;
+            } else if (node.nodeType == document.TEXT_NODE)
+                return node.nodeValue.indexOf(string) > -1;
+        }
 
-    	console.log(talksAbout(document.body, 'book'));
-    	console.log(talksAbout(document.body,'coook'));
+        console.log(talksAbout(document.body, 'book'));
+        console.log(talksAbout(document.body, 'coook'));
     </script>
   </body>
 </html>
