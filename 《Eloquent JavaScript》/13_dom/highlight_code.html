@@ -14,7 +14,7 @@
         var text=node.textContent;
         node.textContent='';
 
-        var match,pos=0
+        var match,pos=0;
         while(match=keywords.exec(text)){
           var before=text.slice(pos,match.index);
           node.appendChild(document.createTextNode(before));
@@ -40,7 +40,6 @@
             highlightCode(pre, languages[lang]);
         }
       }
-
 
       highlightAllCode();
     </script>
