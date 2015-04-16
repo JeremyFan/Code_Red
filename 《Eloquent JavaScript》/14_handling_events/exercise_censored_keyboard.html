@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>censored keyboard</title>
+  </head>
+  <body>
+    <p>Between 1928 and 2013, Turkish law forbade the use of the letters Q, W, and X in official documents. This was part of a wider initiative to stifle Kurdish culture—those letters occur in the language used by Kurdish people but not in Istanbul Turkish.</p>
+    <input type="text" id="input1" style="display:block;margin-bottom:20px;">
+    <input type="text" id="input2" style="display:block;margin-bottom:20px;">
+    <input type="text" id="input3" style="display:block;margin-bottom:20px;">
+    <script>
+      // keypress事件判断charCode
+      var field1 = document.querySelector("#input1");
+      field1.addEventListener('keypress',function(e){
+        if(/[qwx]/i.test(String.fromCharCode(e.charCode)))
+          e.preventDefault();
+      });
+
+      // keydown事件判断keyCode
+      var field2 = document.querySelector("#input2");
+      field2.addEventListener('keydown',function(e){
+        if(e.keyCode===81||e.keyCode===87||e.keyCode===88)
+          e.preventDefault();
+      });
+
+      // code in book
+      var field3 = document.querySelector("#input3");
+      field3.addEventListener('keydown',function(e){
+        if(e.keyCode=='Q'.charCodeAt(0)||
+           e.keyCode=='W'.charCodeAt(0)||
+           e.keyCode=='X'.charCodeAt(0))
+          e.preventDefault();
+      })
+    </script>
+  </body>
+</html>
