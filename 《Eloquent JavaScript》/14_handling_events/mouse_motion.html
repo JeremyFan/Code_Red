@@ -1,0 +1,43 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>mouse motion</title>
+</head>
+<body>
+  <p>Drag the bar to change its width:</p>
+  <div style="background: orange; width: 60px; height: 20px">
+  </div>
+
+  <script>
+    var lastX;
+    var rect=document.querySelector('div');
+
+    rect.addEventListener('mousedown',function(e){
+      if(e.which===1){
+        lastX=e.pageX;
+        addEventListener('mousemove',moved);
+        e.preventDefault(); // 避免选中，鼠标不变成文本形式
+      }
+    });
+
+    function buttonPressed(e){
+      if(e.buttons==null)
+        return e.which!=0;
+      else
+        return e.buttons!=0;
+    }
+
+    function moved(e){
+      if(!buttonPressed(e))
+        removeEventListener('mousemove',moved);
+      else{
+        var dist=e.pageX-lastX;
+        var newWidth=Math.max(10,rect.offsetWidth+dist); // 设置一个最小宽度10
+        rect.style.width=newWidth+'px'; // 别忘了'px'
+        lastX=e.pageX;
+      }
+    }
+  </script>
+</body>
+</html>

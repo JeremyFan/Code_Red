@@ -1,0 +1,20 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>event delegate</title>
+</head>
+<body>
+  <button>A</button>
+  <button>B</button>
+  <button>C</button>
+  <script>
+    // 不必为每个button绑定事件，而是把事件委托给button的父级元素，通过判断节点处理事件
+    document.addEventListener('click',function(e){
+      if(e.target.nodeName==='BUTTON')
+        console.log('clicked',e.target.textContent);
+    })
+
+  </script>
+</body>
+</html>

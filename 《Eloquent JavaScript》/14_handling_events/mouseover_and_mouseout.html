@@ -1,0 +1,50 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>mouseover and mouseout</title>
+</head>
+<body>
+  <p>Hover over this <strong>paragraph</strong>.</p>
+
+  <script>
+  /*
+    mouseover和mouseout有个问题，就是进入子元素或从子元素出来时，会触发mouseout事件，紧接着触发mouseover事件。
+
+    外表看不出来什么，因为在触发mouseout的同时，又触发一次mouseover。
+
+    var para=document.querySelector('p');
+
+    para.addEventListener('mouseover',function(e){
+      console.log('mouseover');
+      this.style.color='red';
+    })
+    para.addEventListener('mouseout',function(e){
+      console.log('mouseout');
+      this.style.color='';
+    })
+  */
+
+    // 解决方案：判断relatedTarget是不是子元素，mouseover时，relatedTarget是从哪个元素进入，mouseout时，relatedTarget是去哪个元素
+    var para=document.querySelector('p');
+
+    function isInside(node, target){
+      for(;node!=null;node=node.parentNode)
+        if(node==target) return true;
+    }
+
+    para.addEventListener('mouseover',function(e){
+      if(!isInside(e.relatedTarget,para)){
+        console.log('mouseover');
+        this.style.color='red';
+      }
+    })
+    para.addEventListener('mouseout',function(e){
+      if(!isInside(e.relatedTarget,para)){
+        console.log('mouseout');
+        this.style.color='';
+      }
+    })
+  </script>
+</body>
+</html>

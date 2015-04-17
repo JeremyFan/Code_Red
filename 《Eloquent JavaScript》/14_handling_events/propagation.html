@@ -1,0 +1,21 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>propagation</title>
+</head>
+<body>
+  <p>A paragraph with a <button>button</button>.</p>
+  <script>
+    var para=document.querySelector('p');
+    var button=document.querySelector('button');
+    para.addEventListener('mousedown',function(){
+      console.log('handler for para.');
+    })
+    button.addEventListener('mousedown',function(e){
+      console.log('handler for button.');
+      if(e.which===3) e.stopPropagation();
+    })
+  </script>
+</body>
+</html>
