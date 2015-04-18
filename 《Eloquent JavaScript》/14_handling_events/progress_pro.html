@@ -1,0 +1,62 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>progress pro</title>
+</head>
+<body>
+  <style>
+    .progress{
+    width:100%;
+    position:fixed;
+    top:0;
+    right:0;
+  }
+  .progress div{
+    height:3px;
+    background:blue;
+    width:0%;
+  }
+
+  </style>
+  <div class="progress"><div></div></div>
+  <div>
+
+  </div>
+  <script>
+    // 创建文字
+    (function(){
+      function createPara(text){
+        var para=document.createElement('p');
+        para.innerText=text;
+        document.body.appendChild(para);
+      }
+
+      function createBottlesSong(){
+        var text;
+        for(var i=100;i>0;i--){
+          if(i===100)
+            text='A hundred bottles of beer on the wall, a hundred bottles of beer.\nIf one of those bottles should happen to fall,\n99 bottles of beer on the wall.';
+          else if(i===1)
+            text='One bottle of beer on the wall, one bottles of beer.\nIf that bottle should happen to fall,\nNo bottles of beer on the wall.'
+          else if(i===2)
+            text=i+' bottles of beer on the wall, '+i+' bottles of beer\nIf one of those bottles should happen to fall,\none bottles of beer on the wall.';
+          else
+            text=i+' bottles of beer on the wall, '+i+' bottles of beer\nIf one of those bottles should happen to fall,\n'+(i-1)+' bottles of beer on the wall.';
+          createPara(text);
+        }
+      }
+      createBottlesSong();
+    })();
+
+    // 绑定滚动事件
+    addEventListener('scroll',function(){
+      var progress=document.querySelector('.progress div');
+      var max=document.body.scrollHeight-innerHeight;
+      progress.style.width=(pageYOffset/max)*100+'%';
+    })
+
+
+  </script>
+</body>
+</html>
