@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>debouncing</title>
+</head>
+<body>
+  <textarea style="width:300px;height:100px;" placeholder="Type something here..."></textarea>
+  <p></p>
+  <script>
+    // 有些事件触发的特别频繁，比如scroll，mousemove等，使用setTimeout让操作执行的不那么频繁，称为debouncing
+    var textarea=document.querySelector('textarea');
+    var timeout;
+    textarea.addEventListener('keydown',function(){
+      clearTimeout(timeout);
+      timeout=setTimeout(function(){
+        console.log('You stopped typing.');
+      },500);
+    });
+
+
+    function displayCoords(event){
+      document.querySelector('p').textContent="Mouse at " + event.pageX+', '+event.pageY;
+    }
+
+    var scheduled=false,
+      lastEvent;
+
+    /* 没有debouncing，时时定位坐标
+    addEventListener('mousemove',function(event){
+      displayCoords(event);
+    })
+    */
+
+    // debouncing方案，隔250ms定位一次坐标
+    addEventListener('mousemove',function(event){
+      lastEvent=event;  // 主意setTimeout实在全局作用域中执行，所以需要把event赋给lastEvent
+      if(!scheduled){
+        scheduled=true;
+        setTimeout(function(){
+          scheduled=false;
+          displayCoords(lastEvent);
+        },250);
+      }
+    });
+  </script>
+</body>
+</html>

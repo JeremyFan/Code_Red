@@ -1,0 +1,28 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>timer</title>
+</head>
+<body>
+  <span>0</span>
+  <script>
+    var bombTime=setTimeout(function(){
+      console.log('BOOM!');
+    },500);
+    if(Math.random()<0.5){ // 50% 概率
+      console.log('Defused.')
+      clearTimeout(bombTime);
+    }
+
+    var ticks=1;
+    var span=document.querySelector('span');
+    var clock=setInterval(function(){
+      if(ticks===10)
+        clearInterval(clock);
+      span.textContent=ticks++;
+    },1000)
+
+  </script>
+</body>
+</html>
