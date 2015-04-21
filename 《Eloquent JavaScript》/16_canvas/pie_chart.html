@@ -1,0 +1,36 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>pie chart</title>
+</head>
+<body>
+  <canvas width="300" height="300"></canvas>
+  <script>
+    // 数据
+    var results = [
+      {name: "Satisfied", count: 1043, color: "lightblue"},
+      {name: "Neutral", count: 563, color: "lightgreen"},
+      {name: "Unsatisfied", count: 510, color: "pink"},
+      {name: "No comment", count: 175, color: "silver"}
+    ];
+
+    var total=results.reduce(function(last,item){
+      return last+item.count;
+    },0);
+
+    var cx=document.querySelector('canvas').getContext('2d');
+    cx.beginPath();
+    var currentAngle=-0.5*Math.PI;
+    results.forEach(function(item){
+      var sliceAngle=item.count/total*2*Math.PI;
+      cx.beginPath();
+      cx.arc(100,100,100,currentAngle,currentAngle+sliceAngle);
+      currentAngle+=sliceAngle;
+      cx.lineTo(100,100);
+      cx.fillStyle=item.color;
+      cx.fill();
+    });
+  </script>
+</body>
+</html>
