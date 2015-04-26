@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>klass</title>
+</head>
+<body>
+  <script>
+    var Class=function(){
+      var klass=function(){
+        this.init.apply(this,arguments);
+      }
+      klass.prototype.init=function(){};
+      return klass;
+    };
+    var Person=new Class;
+    Person.prototype.init=function(name){
+      // 初始化
+      this.name=name;
+    };
+    var jack=new Person('jack');
+  </script>
+</body>
+</html>
