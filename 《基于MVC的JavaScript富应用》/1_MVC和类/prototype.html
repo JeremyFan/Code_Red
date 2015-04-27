@@ -1,0 +1,27 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>prototype</title>
+</head>
+<body>
+  <script>
+    var Animal=function(){};
+    Animal.prototype.breath=function(){
+      console.log('breath');
+    }
+
+    var Dog=function(){};
+
+    Dog.prototype=new Animal;
+
+    Dog.prototype.wag=function(){
+      console.log('wag tail');
+    }
+
+    var dog=new Dog;
+    dog.wag();
+    dog.breath();
+  </script>
+</body>
+</html>
