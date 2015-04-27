@@ -1,0 +1,91 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>extend and include</title>
+</head>
+<body>
+  <script>
+    var Class=function(){
+      var klass=function(){
+        this.init.apply(this,arguments);
+      }
+      klass.prototype.init=function(){};
+      // 定义prototype的别名
+      klass.fn=klass.prototype;
+      // 定义类的别名
+      klass.fn.parent=klass;
+
+      // 给类添加属性
+      klass.extend=function(obj){
+        var extended=obj.extended;
+        for(var i in obj)
+          klass[i]=obj[i];
+        if(extended) extended(klass);
+      }
+
+      // 给实例增加属性
+      klass.include=function(obj){
+        var included=obj.included;
+        for(var i in obj)
+          klass.fn[i]=obj[i];
+        if(included) included(klass);
+      }
+      return klass;
+    }
+
+    // 使用
+    var Person=new Class;
+    // 创建类属性
+    Person.extend({
+      find:function(id){
+        return console.log('find',id);
+      },
+      exists:function(id){
+        console.log('exists',id);
+      },
+      // 回调
+      extended:function(klass){
+        console.log(klass,'was extended!');
+      }
+    });
+    Person.find(1);
+    Person.exists(1);
+
+    // 创建实例属性
+    Person.include({
+      save:function(id){
+        console.log('save',id);
+      },
+      destroy:function(id){
+        console.log('destroy',id);
+      },
+      // 回调
+      included:function(klass){
+        console.log(klass,'was included!');
+      }
+    });
+    var alice=new Person;
+    alice.save(1);
+    alice.destroy(1);
+
+
+    // 这样的写法支持模块
+    var module={
+      walk:function(){
+        console.log('walk walk walk');
+      }
+    }
+
+    var Dog=new Class;
+    var Cat=new Class;
+
+    Dog.include(module);
+    Cat.include(module);
+
+    (new Dog).walk();
+    (new Cat).walk();
+
+  </script>
+</body>
+</html>
