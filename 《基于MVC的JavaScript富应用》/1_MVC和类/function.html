@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>function</title>
+</head>
+<body>
+	<span class="clicky">click me</span>
+	<script src="http://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
+  <script>
+  	var clicky={
+  		wasClicked:function(){
+  			console.log('clicked');
+  		},
+  		addListeners:function(){
+  			// 保存this的值是一种常见的模式
+  			var self=this;
+  			$('.clicky').click(function(){
+  				self.wasClicked();
+  			});
+  		}
+  	};
+
+  	clicky.addListeners();
+
+
+  	// 可以定义一个代理
+  	var proxy=function(func, thisObject){
+  		return function(){
+  			return func.apply(thisObject,arguments);
+  		}
+  	}
+  	var clicky2={
+  		wasClicked:function(){
+  			console.log('clicked');
+  		},
+  		addListeners:function(){
+  			var self=this;
+  			$('.clicky').click(proxy(this.wasClicked,self));
+  		}
+  	};
+
+  	clicky2.addListeners();
+
+
+  	// apply委托
+  	var App={
+  		log:function(){
+  			if(typeof console=='undefined') return;
+
+  			// 将参数转换为合适的数组
+  			var args=$.makeArray(arguments);
+
+  			// 插入一个新的参数
+  			args.unshift('(App)');
+
+  			// 委托给console
+  			console.log.apply(console, args);
+  		}
+  	}
+
+  	App.log('hi');
+
+  </script>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
