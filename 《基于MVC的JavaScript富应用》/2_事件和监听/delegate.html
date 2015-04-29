@@ -1,0 +1,31 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>delegate</title>
+</head>
+<body>
+  <ul>
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+  </ul>
+  <ul id="uu">
+    <li>1</li>
+    <li>2</li>
+    <li>3</li>
+  </ul>
+  <script src="http://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
+  <script>
+    document.querySelector('ul').addEventListener('click',function(e){
+      if(e.target.tagName.toLowerCase()==='li')
+        console.log('click',e.target.textContent);
+    });
+
+    // jQuery delegate的写法
+    $('#uu').delegate('li','click',function(e){
+      console.log('click',this.textContent);
+    })
+  </script>
+</body>
+</html>
