@@ -1,0 +1,25 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>private</title>
+</head>
+<body>
+  <script>
+    var Person=function(){};
+    // 匿名函数创建私有作用域
+    (function(){
+      // 私有变量
+      var findById=function(id){
+        console.log('find by',id);
+      }
+      Person.find=function(id){
+        if(typeof id==='number')
+          return findById(id);
+      }
+    })();
+
+    Person.find(1);
+  </script>
+</body>
+</html>

@@ -1,0 +1,85 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>proxy</title>
+</head>
+<body>
+  <span class="btn">click me</span>
+  <script src="http://cdn.bootcss.com/jquery/2.1.3/jquery.min.js"></script>
+  <script>
+    // 把proxy模式添加到类
+
+    var Class=function(parent){
+      var klass=function(){
+        this.init.apply(this,arguments);
+      }
+
+      klass.prototype.init=function(){};
+
+      klass.fn=klass.prototype;
+
+      klass.fn.parent=klass;
+      klass._super=klass.__proto__;
+
+      // 给类添加属性
+      klass.extend=function(obj){
+        var extended=obj.extended;
+        for(var i in obj)
+          klass[i]=obj[i];
+        if(extended) extended(klass);
+      }
+
+      // 给实例增加属性
+      klass.include=function(obj){
+        var included=obj.included;
+        for(var i in obj)
+          klass.fn[i]=obj[i];
+        if(included) included(klass);
+      }
+
+      // 添加proxy函数
+      klass.proxy=function(func){
+        var self=this;
+        return function(){
+          return func.apply(self,arguments);
+        }
+      }
+
+      // 在实例中添加proxy
+      klass.fn.proxy=klass.proxy;
+
+      return klass;
+    }
+
+    // 使用
+    var Button=new Class;
+    Button.include({
+      init:function(element){
+        this.element=$(element);
+
+        // this.element.click(this.click); // 这样写输出undefined
+        this.element.click(this.proxy(this.click));
+      },
+      click:function(){
+        console.log(this.element);
+      }
+    });
+    new Button('.btn');
+
+    // 也可以使用bind实现同样的功能
+    var Button2=new Class;
+    Button2.include({
+      init:function(element){
+        this.element=$(element);
+
+        this.element.click(this.click.bind(this));
+      },
+      click:function(){
+        console.log(this.element);
+      }
+    });
+    new Button2('.btn');
+  </script>
+</body>
+</html>
