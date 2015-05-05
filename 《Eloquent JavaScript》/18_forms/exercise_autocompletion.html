@@ -1,0 +1,54 @@
+<!doctype>
+<html>
+<head>
+  <title>autocompletion</title>
+</head>
+<body>
+  <input type="text" id="field">
+  <div id="suggestions" style="cursor: pointer"></div>
+
+  <script>
+    // Builds up an array with global variable names, like
+    // 'alert', 'document', and 'scrollTo'
+    var terms = [];
+    for (var name in window)
+      terms.push(name);
+
+    // Your code here.
+    var field=document.querySelector('#field'),
+      suggestions=document.querySelector('#suggestions');
+
+    field.addEventListener('input',function(e){
+      suggest.call(this);
+    });
+
+    function suggest(){
+      suggestions.innerHTML='';
+
+      var value=this.value;
+
+      if(!value) return;
+
+      terms.forEach(function(term){
+        if(term.indexOf(value)==0)
+          addTerm(suggestions,term);
+      });
+    }
+
+    function addTerm(container,value){
+      var p=document.createElement('p');
+      p.textContent=value;
+      container.appendChild(p);
+    }
+
+    suggestions.addEventListener('click',function(e){
+      var term=e.target;
+      field.value=term.textContent;
+      
+      suggest.call(field);
+    });
+
+
+  </script>
+</body>
+</html>
