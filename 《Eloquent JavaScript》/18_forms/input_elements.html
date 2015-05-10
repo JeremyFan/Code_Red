@@ -4,27 +4,44 @@
   <title>form elements</title>
 </head>
 <body>
-  <!-- autoFocus自动获取焦点 -->
-  <p><input type="text" value="abc" autoFocus> (text)</p>
-  <p><input type="password" value="abc"> (password)</p>
-  <p><input type="checkbox" checked> (checkbox)</p>
-  <p><input type="radio" value="A" name="choice">
-     <input type="radio" value="B" name="choice" checked>
-     <input type="radio" value="C" name="choice"> (radio)</p>
-  <p><input type="file" checked> (file)</p>
+  <form id="ff" action="/somepage" method="GET">
+    <!-- autoFocus自动获取焦点 -->
+    <p><input type="text" value="abc" autoFocus tabindex="1"> (text)</p>
+    <p><input type="password" value="abc"> (password)</p>
+    <p><input type="checkbox" checked tabindex="2"> (checkbox)</p>
+    <p><input type="radio" value="A" name="choice">
+       <input type="radio" value="B" name="choice" checked>
+       <input type="radio" value="C" name="choice" disabled> (radio)</p>
+    <p><input type="file" checked> (file)</p>
 
-  <textarea>
-  one
-  two
-  three
-  </textarea>
+    <textarea>
+    one
+    two
+    three
+    </textarea>
 
-  <br><br>
+    <br><br>
 
-  <select>
-    <option>Pancakes</option>
-    <option>Pudding</option>
-    <option>Ice cream</option>
-  </select>
+    <select>
+      <option>Pancakes</option>
+      <option>Pudding</option>
+      <option>Ice cream</option>
+    </select>
+
+    <br></br>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    var form=document.querySelector('#ff');
+
+    // form所有元素
+    console.log(form.elements);
+
+    form.addEventListener('submit',function(e){
+      // 阻止表单提交
+      e.preventDefault();
+    });
+  </script>
 </body>
 </html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>select</title>
+</head>
+<body>
+  <p>
+  </p>
+  <!-- 单文件 -->
+  <input id="s" type="file">
+  <!-- 多文件 -->
+  <input id="m" type="file" multiple>
+
+  <script>
+    var s=document.querySelector('#s');
+    s.addEventListener('change',function(){
+      if(s.files.length>0){
+
+        var file=s.files[0];
+        console.log('you chose', file.name);
+        if(file.type)
+          console.log('It has type',file.type);
+      }
+    });
+
+    var m=document.querySelector('#m');
+    m.addEventListener('change',function(){
+      // m.files是类数组对象
+      Array.prototype.forEach.call(m.files, function(file){
+        var reader=new FileReader();
+        reader.addEventListener('load',function(){
+          console.log('File', file.name,'starts with',reader.result.slice(0,20));
+        });
+        reader.readAsText(file);
+      });
+    })
+
+  </script>
+</body>
+</html>
