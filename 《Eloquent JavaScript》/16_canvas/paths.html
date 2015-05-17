@@ -7,18 +7,18 @@
 <body>
   <canvas width="300" height="240"></canvas>
   <script>
-    var cx=document.querySelector('canvas').getContext('2d');
+    var cx = document.querySelector('canvas').getContext('2d');
     cx.beginPath();
-    for(var y=10;y<100;y+=10){
-      cx.moveTo(10,y);
-      cx.lineTo(90,y);
+    for (var y = 10; y < 100; y += 10) {
+      cx.moveTo(10, y);
+      cx.lineTo(90, y);
     }
     cx.stroke();
 
-    cx.moveTo(10,110);
-    cx.lineTo(90,110);
-    cx.lineTo(10,190);
-    cx.fillStyle='blue';
+    cx.moveTo(10, 110);
+    cx.lineTo(90, 110);
+    cx.lineTo(10, 190);
+    cx.fillStyle = 'blue';
     // cx.closePath();
     // cx.stroke();
     // fill自动闭合图形

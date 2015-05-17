@@ -17,17 +17,17 @@
     // 二次方曲线
     var cx = document.querySelector("#canvas").getContext("2d");
     cx.beginPath();
-    cx.moveTo(10,90);
+    cx.moveTo(10, 90);
     // control(60,10) goal(90,90)
-    cx.quadraticCurveTo(60,10,90,90);
-    cx.lineTo(60,10);
+    cx.quadraticCurveTo(60, 10, 90, 90);
+    cx.lineTo(60, 10);
     cx.closePath();
     cx.stroke();
 
     // 贝塞尔曲线
     var cx2 = document.querySelector("#canvas2").getContext("2d");
     cx2.beginPath();
-    cx2.moveTo(10,90);
+    cx2.moveTo(10, 90);
     // control1=(10,10) control2=(90,10) goal=(50,90)
     cx2.bezierCurveTo(10, 10, 90, 10, 50, 90);
     cx.lineTo(90, 10);
@@ -37,21 +37,21 @@
     // 弧
     var cx3 = document.querySelector("#canvas3").getContext("2d");
     cx3.beginPath();
-    cx3.moveTo(10,10);
+    cx3.moveTo(10, 10);
     // control=(90,10) goal=(90,90) radius=20
-    cx3.arcTo(90,10,90,90,20);
-    cx3.moveTo(10,10);
+    cx3.arcTo(90, 10, 90, 90, 20);
+    cx3.moveTo(10, 10);
     // control=(90,10) goal=(90,90) radius=80
-    cx3.arcTo(90,10,90,90,80);
+    cx3.arcTo(90, 10, 90, 90, 80);
     cx3.stroke();
 
     // 弧2
-    var cx4=document.querySelector('#canvas4').getContext('2d');
+    var cx4 = document.querySelector('#canvas4').getContext('2d');
     cx4.beginPath();
     // center(50,50) radius=30 angle=0 to 7
-    cx4.arc(50,50,30,0,7);
-    cx4.moveTo(120,50);
-    cx4.arc(150,50,30,-Math.PI,0);
+    cx4.arc(50, 50, 30, 0, 7);
+    cx4.moveTo(120, 50);
+    cx4.arc(150, 50, 30, -Math.PI, 0);
     cx4.stroke();
 
   </script>

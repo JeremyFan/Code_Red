@@ -7,18 +7,19 @@
 <body>
   <canvas width="300" height="300"></canvas>
   <script>
-    var cx=document.querySelector('canvas').getContext('2d');
-    var img=document.createElement('img');
-    img.src='img/player.png';
-    var spriteW=24,spriteH=30;
-    img.addEventListener('load',function(){
-      var cycle=0;
-      setInterval(function(){
-        cx.clearRect(0,0,spriteW,spriteH);
-        cx.drawImage(img,spriteW*cycle,0,spriteW,spriteH,0,0,spriteW,spriteH);
-        cycle=(cycle+1)%8;
-      },120);
-    })
+    var cx = document.querySelector('canvas').getContext('2d');
+    var img = document.createElement('img');
+    img.src = 'img/player.png';
+    var spriteW = 24,
+      spriteH = 30;
+    img.addEventListener('load', function() {
+      var cycle = 0;
+      setInterval(function() {
+        cx.clearRect(0, 0, spriteW, spriteH);
+        cx.drawImage(img, spriteW * cycle, 0, spriteW, spriteH, 0, 0, spriteW, spriteH);
+        cycle = (cycle + 1) % 8;
+      }, 120);
+    });
   </script>
 </body>
 </html>
